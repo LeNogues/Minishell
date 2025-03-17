@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                                            */
-/*   built_in_utils2.c                                    ┌─┐┌┬┐┌┬┐┌─┐        */
-/*                                                        │ │ │  │ │ │        */
-/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
-/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/14 11:44:33 by sle-nogu             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 17:55:37 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*                                                        :::      ::::::::   */
+/*   built_in_utils2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/14 11:44:33 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/03/17 19:07:27 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,26 @@ long	ft_atol(const char *str, long *result)
 int	is_in_tab(char *str, char **cmd)
 {
 	int i;
+	int	j;
 	
 	i = 0;
+	j = 0;
 	if(!str || !cmd)
 		return (0);
-	
 	while(cmd[i])
 	{
-		if(ft_strncmp(cmd[i], str, ft_strlen(cmd[i])) == 0)
+		j = 0;
+		while(cmd[i][j])
+		{
+			if(cmd[i][j++] == '=')
+				return (0);
+		}
+		i++;
+	}
+	i = 0;
+	while(cmd[i])
+	{
+		if(ft_strncmp(cmd[i], str, ft_strlen(cmd[i]) + 1) == 61)
 			return (1);
 		i++;
 	}

@@ -1,7 +1,7 @@
 
 NAME=minishell
 CC=cc
-CFLAGS=-Wall -Werror -Wextra -O0 -g -fsanitize=address
+CFLAGS=-Wall -Werror -Wextra
 
 OBJS=$(SRC:.c=.o)
 

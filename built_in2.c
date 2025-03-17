@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                                            */
-/*   built_in2.c                                          ┌─┐┌┬┐┌┬┐┌─┐        */
-/*                                                        │ │ │  │ │ │        */
-/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
-/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/14 12:50:10 by sle-nogu             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 17:55:02 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*                                                        :::      ::::::::   */
+/*   built_in2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/03/17 18:38:17 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	ft_unset(char **cmd, t_env *env)
 	j = 0;
 	if (!env || !env->envp)
 		return ;
-	size = ft_tablen(env->envp);
+	size = ft_tablen(env->envp) + 1;
+	if (!cmd[1])
+		return ;
 	new_env = malloc(sizeof(char *) * size);
 	if (!new_env)
 		return ;
@@ -86,7 +88,7 @@ void	ft_unset(char **cmd, t_env *env)
 		}
 		i++;
 	}
-	new_env[j - 1] = NULL;
+	new_env[j] = NULL;
 	free_tab(env->envp);
 	set_environment(env, new_env);
 	free_tab(new_env);
