@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_in1.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/17 15:26:11 by sle-nogu         ###   ########.fr       */
+/*                                                                            */
+/*   built_in1.c                                          ┌─┐┌┬┐┌┬┐┌─┐        */
+/*                                                        │ │ │  │ │ │        */
+/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
+/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
+/*   Created: 2025/03/06 11:12:07 by seb                  │││├─┤ │ ├─┤        */
+/*   Updated: 2025/03/17 17:54:27 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int	ft_pwd(char **env)
+int	ft_pwd(t_env *env)
 {
 	char	*current_path;
 
+	if (!env)
+		return (0);
 	current_path = ft_getenv("PWD=", env);
 	if (!current_path)
 	{
@@ -28,7 +30,7 @@ int	ft_pwd(char **env)
 	return (1);
 }
 
-int	ft_cd(char **cmd, char **env)
+int	ft_cd(char **cmd, t_env *env)
 {
 	char		*path;
 	const int	size_tab = ft_tablen(cmd);
@@ -75,7 +77,7 @@ int	ft_echo(t_cmd cmd)
 	return (1);
 }
 
-static void	choice_of_builtin(t_cmd cmd, char **env)
+static void	choice_of_builtin(t_cmd cmd, t_env *env)
 {
 	if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0)
 		ft_cd(cmd.cmd, env);
@@ -89,7 +91,7 @@ static void	choice_of_builtin(t_cmd cmd, char **env)
 		ft_unset(cmd.cmd, env);
 }
 
-int	here_doc_line(t_cmd cmd, char **env)
+int	here_doc_line(t_cmd cmd, t_env *env)
 {
 	char	*line;
 	int		result;

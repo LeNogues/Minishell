@@ -1,18 +1,7 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/26 10:14:48 by sle-nogu          #+#    #+#              #
-#    Updated: 2025/03/16 14:20:08 by sle-nogu         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
-NAME=Minishell
+NAME=minishell
 CC=cc
-CFLAGS=-Wall -Werror -Wextra
+CFLAGS=-Wall -Werror -Wextra -O0 -g -fsanitize=address
 
 OBJS=$(SRC:.c=.o)
 

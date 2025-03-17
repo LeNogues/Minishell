@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_in2.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/17 16:00:48 by sle-nogu         ###   ########.fr       */
+/*                                                                            */
+/*   built_in2.c                                          ┌─┐┌┬┐┌┬┐┌─┐        */
+/*                                                        │ │ │  │ │ │        */
+/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
+/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
+/*   Created: 2025/03/14 12:50:10 by sle-nogu             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/03/17 17:55:02 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-void	exit_clean(unsigned int return_value, char **cmd, char **env)
+void	exit_clean(unsigned int return_value, char **cmd, t_env *env)
 {
 	free_tab(cmd);
-	free_tab(env);
+	free_tab(env->envp);
+	free(env);
 	exit(return_value);
 }
 
-void	ft_exit(char **cmd, char **env)
+void	ft_exit(char **cmd, t_env *env)
 {
 	int				result;
 	long			exit_value;
@@ -43,47 +44,51 @@ void	ft_exit(char **cmd, char **env)
 	}
 }
 
-void	ft_env(char **env)
+void	ft_env(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!env)
+	if (!env || !env->envp)
 		return ;
-	while(env[i] != 0)
+	while (env->envp[i] != 0)
 	{
-		write(1, env[i], ft_strlen(env[i]));
+		write(1, env->envp[i], ft_strlen(env->envp[i]));
 		write(1, "\n", 1);
 		i++;
 	}
 }
 
-void	ft_unset(char **cmd, char **env)
+void	ft_unset(char **cmd, t_env *env)
 {
-	int			i;
-	int			j;
-	char 		**new_env;
-	const int	size = ft_tablen(env);
+	int		i;
+	int		j;
+	char	**new_env;
+	int		size;
 
+	
 	i = 0;
 	j = 0;
+	if (!env || !env->envp)
+		return ;
+	size = ft_tablen(env->envp);
 	new_env = malloc(sizeof(char *) * size);
 	if (!new_env)
 		return ;
-	while (env[i])
+	while (env->envp[i])
 	{
-		if(is_in_tab(env[i], cmd) == 0)
+		if (is_in_tab(env->envp[i], cmd) == 0)
 		{
-			new_env[j] = ft_strdup(env[i]);
+			new_env[j] = ft_strdup(env->envp[i]);
 			if (!new_env[j])
 				return (free_tab(new_env));
 			j++;
 		}
 		i++;
 	}
-	new_env[j] = NULL;
-	free_tab(env);
-	dup_env(&env, new_env);
+	new_env[j - 1] = NULL;
+	free_tab(env->envp);
+	set_environment(env, new_env);
 	free_tab(new_env);
 	return ;
 }

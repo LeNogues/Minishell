@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_in_utils2.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 11:44:33 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/16 17:17:38 by sle-nogu         ###   ########.fr       */
+/*                                                                            */
+/*   built_in_utils2.c                                    ┌─┐┌┬┐┌┬┐┌─┐        */
+/*                                                        │ │ │  │ │ │        */
+/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
+/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
+/*   Created: 2025/03/14 11:44:33 by sle-nogu             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/03/17 17:55:37 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-char	*create_new_path(char **env, char *path)
+char	*create_new_path(t_env *env, char *path)
 {
 	char	*cwd;
 	char	*temp;
