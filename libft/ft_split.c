@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sebastienlenogues@gmail.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 12:11:31 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/12 12:48:30 by sle-nogu         ###   ########.fr       */
+/*   Created: 2024/11/12 15:03:16 by sle-nogu          #+#    #+#             */
+/*   Updated: 2024/11/17 18:42:39 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "Minishell.h"
+#include "libft.h"
 
 static int	count_words(const char *str, char c)
 {
@@ -40,20 +39,22 @@ static char	*word_dup(const char *str, int start, int finish)
 
 	i = 0;
 	word = malloc((finish - start + 1) * sizeof(char));
-	if (!word)
-		return (0);
 	while (start < finish)
 		word[i++] = str[start++];
 	word[i] = '\0';
 	return (word);
 }
 
-static void	split_string(const char *s, char c, char **tab)
+char	**ft_split(char const *s, char c)
 {
-	int	i;
-	int	j;
-	int	start;
+	size_t	i;
+	size_t	j;
+	int		start;
+	char	**tab;
 
+	tab = malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (!s || !tab)
+		return (0);
 	i = 0;
 	j = 0;
 	start = -1;
@@ -69,25 +70,12 @@ static void	split_string(const char *s, char c, char **tab)
 		i++;
 	}
 	tab[j] = 0;
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**tab;
-
-	if (!s || !c)
-		return (NULL);
-	if (s[0] == 32 && s[1] == 0)
-	{
-		tab = malloc(sizeof(char *) * 1);
-		if (!tab)
-			return (0);
-		tab[0] = 0;
-		return (tab);
-	}
-	tab = malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!tab)
-		exit (EXIT_FAILURE);
-	split_string(s, c, tab);
 	return (tab);
 }
+/*
+int main(int argc, char **argv)
+{
+	(void) argc;
+	(void) argv;
+	printf("%s\n", ft_split("chinimala", ' ')[0]);
+}*/

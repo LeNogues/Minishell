@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                                            */
-/*   Minishell.h                                          ┌─┐┌┬┐┌┬┐┌─┐        */
-/*                                                        │ │ │  │ │ │        */
-/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
-/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/10 15:03:48 by sle-nogu             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 17:54:19 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*                                                        :::      ::::::::   */
+/*   Minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/03/22 15:09:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include "./libft.h"
 
 typedef struct s_env	t_env;
 
@@ -79,30 +80,9 @@ void					ft_unset(char **cmd, t_env *env);
 int						is_in_tab(char *str, char **cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// mini_libft.c
-int						ft_strlen(const char *str);
-int						ft_strncmp(const char *s1, const char *s2, size_t n);
-int						ft_strlcpy(char *dst, const char *src, int size);
-char					*ft_strdup(const char *s);
-char					*ft_strjoin(char const *s1, char const *s2);
-///////////////////////////////////////////////////////////////////////////////
-
-// ft_split.c
-char					**ft_split(char const *s, char c);
-char					**ft_split1(char const *s, char c);
-////////////////////////////////////////////////////////
-
 // main.c
 int						main(int argc, char **argv, char **envp);
 int						set_environment(t_env *env, char **envp);
-///////////////////////////////////////////////////////////////////////////////
-
-// tablen.c
-int						ft_tablen(char **tab);
-///////////////////////////////////////////////////////////////////////////////
-
-// clear.c
-void					free_tab(char **tab);
 ///////////////////////////////////////////////////////////////////////////////
 
 // built_in_utils1.c

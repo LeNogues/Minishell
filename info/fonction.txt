@@ -1,5 +1,5 @@
 ligne pour valgrind :
-valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=ignore_leak_readline.supp ./Minishell
+valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=ignore_leak_readline.supp ./minishell
 
 Fonction autorisées :
 

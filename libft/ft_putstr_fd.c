@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sebastienlenogues@gmail.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:19:38 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/17 16:00:53 by sle-nogu         ###   ########.fr       */
+/*   Created: 2024/11/14 16:19:03 by sle-nogu          #+#    #+#             */
+/*   Updated: 2024/11/17 17:42:09 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include "Minishell.h"
-
-void	free_tab(char **tab)
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
-	if (!tab)
-		return ;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }

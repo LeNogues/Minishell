@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                                            */
-/*   built_in1.c                                          ┌─┐┌┬┐┌┬┐┌─┐        */
-/*                                                        │ │ │  │ │ │        */
-/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
-/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/06 11:12:07 by seb                  │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 17:54:27 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*                                                        :::      ::::::::   */
+/*   built_in1.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
+/*   Updated: 2025/03/22 15:19:10 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell.h"
+#include "../Minishell.h"
 
 int	ft_pwd(t_env *env)
 {
@@ -24,8 +24,7 @@ int	ft_pwd(t_env *env)
 		perror("getcwd");
 		return (0);
 	}
-	write(1, current_path, strlen(current_path));
-	write(1, "\n", 1);
+	ft_printf("%s\n", current_path);
 	free(current_path);
 	return (1);
 }
