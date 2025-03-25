@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                                            */
-/*   main.c                                               ┌─┐┌┬┐┌┬┐┌─┐        */
-/*                                                        │ │ │  │ │ │        */
-/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
-/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/12 12:37:51 by sle-nogu             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 17:57:36 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/03/24 18:01:52 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell.h"
+#include "../Minishell.h"
 
 int	set_environment(t_env *env, char **envp)
 {
@@ -37,35 +37,30 @@ int	set_environment(t_env *env, char **envp)
 	return (0);
 }
 
-int	create_env(t_env *env)
+static int	create_env(t_env *env)
 {
-	env->envp = malloc(sizeof(char *) * 3);
+	env->envp = malloc(sizeof(char *) * 2);
 	if (!env->envp)
 		return (-1);
 	env->envp[0] = ft_strjoin(ft_strdup("PWD="), getcwd(NULL, 0));
 	if (!env->envp[0])
 		return (-1);
-	env->envp[1] = ft_strjoin(ft_strdup("OLDPWD="), getcwd(NULL, 0));
-	if (!env->envp[1])
-	{
-		free(env->envp[0]);
-		free(env->envp);
-		return (-1);
-	}
-	env->envp[2] = 0;
+	env->envp[1] = 0;
 	return (0);
 }
+
+
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	cmd;
 	t_env	*env;
-	long	result;
 
 	(void)argc;
 	(void)argv;
 	cmd.cmd = NULL;
 	env = malloc(sizeof(t_env));
+	handle_signal();
 	if (!env)
 		return (-1);
 	if (!envp[0])
@@ -75,7 +70,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else if (set_environment(env, envp))
 		return (3);
-	result = here_doc_line(cmd, env);
+	here_doc_line(cmd, env);
 	free_tab(env->envp);
-	return (result);
+	free(env);
+	return (0);
 }

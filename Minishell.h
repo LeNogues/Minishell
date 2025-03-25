@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                                            */
-/*   Minishell.h                                          ┌─┐┌┬┐┌┬┐┌─┐        */
-/*                                                        │ │ │  │ │ │        */
-/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
-/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/10 15:03:48 by sle-nogu             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 17:54:19 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*                                                        :::      ::::::::   */
+/*   Minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/03/24 18:03:15 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # endif
 
+# include "libft.h"
 # include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -66,56 +67,58 @@ struct					s_env
 };
 
 // built_in1.c
+
+void					here_doc_line(t_cmd cmd, t_env *envp);
+///////////////////////////////////////////////////////////////////////////////
+
+// ft_pwd.c
 int						ft_pwd(t_env *env);
+///////////////////////////////////////////////////////////////////////////////
+
+// ft_cd.c
 int						ft_cd(char **path, t_env *env);
+///////////////////////////////////////////////////////////////////////////////
+
+// ft_cd_utils.c
+int						cd_home(t_env *env, char **path);
+///////////////////////////////////////////////////////////////////////////////
+
+// ft_echo.c
 int						ft_echo(t_cmd cmd);
-int						here_doc_line(t_cmd cmd, t_env *envp);
 ///////////////////////////////////////////////////////////////////////////////
 
-// built_in2.c
+// ft_exit.c
 void					ft_exit(char **cmd, t_env *env);
+///////////////////////////////////////////////////////////////////////////////
+
+// ft_env.c
 void					ft_env(t_env *env);
+///////////////////////////////////////////////////////////////////////////////
+
+// ft_unset.c
 void					ft_unset(char **cmd, t_env *env);
-int						is_in_tab(char *str, char **cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// mini_libft.c
-int						ft_strlen(const char *str);
-int						ft_strncmp(const char *s1, const char *s2, size_t n);
-int						ft_strlcpy(char *dst, const char *src, int size);
-char					*ft_strdup(const char *s);
-char					*ft_strjoin(char const *s1, char const *s2);
+// ft_export.c
+void					ft_export(char **cmd, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_split.c
-char					**ft_split(char const *s, char c);
-char					**ft_split1(char const *s, char c);
-////////////////////////////////////////////////////////
+// ft_export_utils.c
+int						is_valid(char *str);
+///////////////////////////////////////////////////////////////////////////////
 
 // main.c
 int						main(int argc, char **argv, char **envp);
 int						set_environment(t_env *env, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
-// tablen.c
-int						ft_tablen(char **tab);
-///////////////////////////////////////////////////////////////////////////////
-
-// clear.c
-void					free_tab(char **tab);
-///////////////////////////////////////////////////////////////////////////////
-
-// built_in_utils1.c
-void					change_pwd(t_env *env, char *path);
-void					change_old_pwd(t_env *env);
-char					*get_home(t_env *env);
-int						check_flags(t_cmd cmd);
+// ft_getenv.c
 char					*ft_getenv(char *value_name, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// built_in_utils2.c
-char					*create_new_path(t_env *env, char *path);
-long					ft_atol(const char *str, long *result);
+//signal.c
+void    handle_signal(void);
 ///////////////////////////////////////////////////////////////////////////////
+
 
 #endif

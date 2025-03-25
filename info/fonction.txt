@@ -1,5 +1,5 @@
 ligne pour valgrind :
-valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=ignore_leak_readline.supp ./Minishell
+valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=ignore_leak_readline.supp ./minishell
 
 Fonction autorisées :
 
@@ -20,3 +20,9 @@ git
 
 builtins:
 
+ft_export :
+    regarder si ca finit par un =;
+    regarder si existe deja 
+        OUI, free la line -> ft_strdup de la nouvelle valeur;
+    else
+        NON, reallouer tout un tableau + nombre de variable a creer, rajouter ft_strdup a la fin;

@@ -1,32 +1,44 @@
-
 NAME=minishell
+LIBFTNAME=libft.a
 CC=cc
-CFLAGS=-Wall -Werror -Wextra
+CFLAGS=-Wall -Werror -Wextra -Ilibft -g3
+LIBFLAGS= -lft -Llibft
+LIBFTDIR = ./libft
 
-OBJS=$(SRC:.c=.o)
+SRC=    src/main.c \
+		src/built_in/built_in1.c \
+		src/built_in/ft_getenv.c \
+		src/built_in/ft_export.c \
+		src/built_in/ft_export_utils.c \
+		src/built_in/ft_cd.c \
+		src/built_in/ft_cd_utils.c \
+		src/built_in/ft_echo.c \
+		src/built_in/ft_env.c \
+		src/built_in/ft_exit.c \
+		src/built_in/ft_pwd.c \
+		src/built_in/ft_unset.c \
+		src/signal/signal.c
 
-SRC=	main.c \
-		mini_libft.c \
-		ft_split.c \
-		built_in1.c \
-		built_in2.c \
-		tablen.c \
-		clear.c \
-		built_in_utils1.c \
-		built_in_utils2.c
+OBJ_DIR=obj
+OBJS=$(SRC:%.c=$(OBJ_DIR)/%.o)
 
-# Compilation rules
-%.o: %.c
+# Create necessary directories for .o files
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -lreadline $(OBJS) -o $(NAME)
+	@make -C $(LIBFTDIR)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFLAGS) -lreadline
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
+	@cd $(LIBFTDIR) && make clean
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@cd $(LIBFTDIR) && make fclean
 
 re: fclean all
 
