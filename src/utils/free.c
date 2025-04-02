@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 17:58:40 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/02 17:39:49 by sle-nogu         ###   ########.fr       */
+/*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/04/02 17:36:38 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static void	ctrl_c(int sig)
+void	free_cmd(t_cmd *cmd)
 {
-	(void)sig;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if ((*cmd).cmd)
+		free_tab((*cmd).cmd);
+	if ((*cmd).name_in)
+		free((*cmd).name_in);
+	if ((*cmd).name_out)
+		free((*cmd).name_out);
+	if ((*cmd).limiter)
+		free((*cmd).limiter);
+	free(cmd);
 }
 
-void	handle_signal(void)
+void	free_path_exec(char *full_path, char **executable)
 {
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
+	int	i;
+
+	free(full_path);
+	i = 0;
+	while (executable[i])
+	{
+		free(executable[i]);
+		i++;
+	}
+	free(executable);
 }

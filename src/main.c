@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/24 18:01:52 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:40:43 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,12 @@ static int	create_env(t_env *env)
 	return (0);
 }
 
-
-
 int	main(int argc, char **argv, char **envp)
 {
-	t_cmd	cmd;
 	t_env	*env;
 
 	(void)argc;
 	(void)argv;
-	cmd.cmd = NULL;
 	env = malloc(sizeof(t_env));
 	handle_signal();
 	if (!env)
@@ -70,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else if (set_environment(env, envp))
 		return (3);
-	here_doc_line(cmd, env);
+	hub(env);
 	free_tab(env->envp);
 	free(env);
 	return (0);

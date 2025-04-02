@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:46:15 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/24 14:51:27 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:40:15 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	ft_env(t_env *env)
 	i = 0;
 	if (!env || !env->envp)
 		return ;
-	while(env->envp[i])
+	while (env->envp[i])
 	{
-		if(ft_strlen(env->envp[i++]) > 2097152)
+		if (ft_strlen(env->envp[i++]) > 2097152)
 		{
 			ft_printf("Argument list too long");
 			return ;

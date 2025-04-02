@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/25 11:33:47 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:40:35 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,31 @@ static void	choice_of_builtin(t_cmd cmd, t_env *env)
 		ft_unset(cmd.cmd, env);
 	else if (ft_strncmp(cmd.cmd[0], "export", 7) == 0)
 		ft_export(cmd.cmd, env);
-	else if (ft_strncmp(cmd.cmd[0], "exit", 5) == 0)
-		ft_exit(cmd.cmd, env);
-	exit(0);
+	else
+		exec(cmd, env);
 }
 
-void	here_doc_line(t_cmd cmd, t_env *env)
+t_cmd	*lexer(char *line)
 {
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd) * 1);
+	cmd->cmd = ft_split(line, ' ');
+	cmd->name_in = ft_strdup("test.txt");
+	cmd->name_out = ft_strdup("teste.txt");
+	cmd->limiter = NULL;
+	cmd->append = 0;
+	cmd->pipe = 1;
+	cmd->fd_in = 0;
+	cmd->fd_out = 0;
+	cmd->next = NULL;
+	return (cmd);
+}
+
+void	hub(t_env *env)
+{
+	t_cmd	*cmd;
 	char	*line;
-	int id;
 
 	while (1)
 	{
@@ -44,20 +60,13 @@ void	here_doc_line(t_cmd cmd, t_env *env)
 		if (line[0] != 0)
 		{
 			add_history(line);
-			cmd.cmd = ft_split(line, ' ');
-			if (!cmd.cmd)
-				return ;
+			cmd = lexer(line);
 			free(line);
-			id = fork();
-			if (id == 0)
-				choice_of_builtin(cmd, env);
+			if (ft_strncmp((*cmd).cmd[0], "exit", 5) == 0)
+				ft_exit(cmd, env);
 			else
-			{
-				wait(0);
-				if (ft_strncmp(cmd.cmd[0], "exit", 5) == 0)
-					ft_exit(cmd.cmd, env);
-				free_tab(cmd.cmd);
-			}
+				choice_of_builtin((*cmd), env);
+			free_cmd(cmd);
 		}
 	}
 }

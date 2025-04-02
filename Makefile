@@ -17,7 +17,12 @@ SRC=    src/main.c \
 		src/built_in/ft_exit.c \
 		src/built_in/ft_pwd.c \
 		src/built_in/ft_unset.c \
-		src/signal/signal.c
+		src/signal/signal.c \
+		src/exec/exec.c \
+		src/exec/exec_loop.c \
+		src/exec/parsing.c \
+		src/exec/path.c \
+		src/utils/free.c
 
 OBJ_DIR=obj
 OBJS=$(SRC:%.c=$(OBJ_DIR)/%.o)

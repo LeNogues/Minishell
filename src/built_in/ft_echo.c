@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:44:45 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/25 12:17:46 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:40:23 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_echo(t_cmd cmd)
 {
 	int	i;
 	int	newline;
-	int size;
+	int	size;
 
 	newline = 1;
 	i = 1;

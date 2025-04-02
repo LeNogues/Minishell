@@ -50,7 +50,8 @@ SRCS = ft_split.c \
 	ft_lstlast_bonus.c \
        ft_tablen.c \
        ft_free_tab.c \
-       ft_atol.c
+       ft_atol.c \
+       ft_strtok.c
 
 OBJS = $(SRCS:.c=.o)
 
