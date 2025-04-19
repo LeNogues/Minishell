@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 14:20:01 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:11:08 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 			execute(cmd, env->envp);
 		}
 		pipecpy(pipe_fd->new, pipe_fd->old);
-		// close(pipe_fd->new[1]);
-		// close(pipe_fd->new[0]);
 		if (cmd->next)
 		{
 			(*cmd) = *cmd->next;
