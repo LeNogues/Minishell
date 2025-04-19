@@ -22,6 +22,9 @@ SRC=    src/main.c \
 		src/exec/exec_loop.c \
 		src/exec/parsing.c \
 		src/exec/path.c \
+		src/exec/verif.c \
+		src/exec/execute.c \
+		src/exec/handle_cmd.c \
 		src/utils/free.c
 
 OBJ_DIR=obj

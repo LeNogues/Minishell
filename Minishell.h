@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/02 17:40:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 11:20:38 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,18 @@
 # include <termios.h>
 # include <unistd.h>
 
-typedef struct s_args
-{
-	char			*file;
-	char			*full_path;
-	char			**executable;
-}					t_args;
-
 typedef struct s_cmd
 {
 	char			**cmd;
 	char			**limiter;
 	char			*name_in;
 	char			*name_out;
+	char			*full_path;
 	int				fd_in;
 	int				pipe;
 	int				fd_out;
 	int				append;
+	int				nb_cmd;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -68,6 +63,7 @@ typedef struct s_env
 
 // built_in1.c
 void				hub(t_env *envp);
+int					choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_pwd.c
@@ -83,11 +79,11 @@ int					cd_home(t_env *env, char **path);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_echo.c
-int					ft_echo(t_cmd cmd);
+int					ft_echo(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_exit.c
-void				ft_exit(t_cmd *cmd, t_env *env);
+void				ft_exit(t_cmd *cmd, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_env.c
@@ -120,13 +116,12 @@ void				handle_signal(void);
 ///////////////////////////////////////////////////////////////////////////////
 
 // exec.c
-int					exec(t_cmd cmd, t_env *env);
-void				execute_middle(t_cmd *cmd, char *full_path, t_env *env,
-						t_pipe pipe_fd);
+int					exec(t_cmd *cmd, t_env *env, t_cmd *cmd_origin);
+int					open_fd(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // exec_loop.c
-int					exec_loop(t_cmd *cmd, t_env *env, t_pipe *pipe_fd);
+int					loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
 ///////////////////////////////////////////////////////////////////////////////
 
 // parsing.c
@@ -141,5 +136,23 @@ char				*get_path(t_env *env);
 void				free_path_exec(char *full_path, char **executable);
 void				free_cmd(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
+
+//verif.c
+int					verif_infile(char *file);
+int					verif_outfile(char *file);
+///////////////////////////////////////////////////////////////////////////////
+
+//execute.c
+void				execute_with_input(t_cmd *cmd, char **envp, t_pipe *pipe_fd);
+void				execute_with_output(t_cmd *cmd, char **envp, t_pipe *pipe_fd);
+void				execute_middle(t_cmd *cmd, char *full_path, t_env *env, t_pipe *pipe_fd);
+///////////////////////////////////////////////////////////////////////////////
+
+//handle_cmd.c
+int					handle_first_cmd(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
+int					handle_last_cmd(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
+///////////////////////////////////////////////////////////////////////////////
+
+
 
 #endif

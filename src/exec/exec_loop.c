@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/02 17:38:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 11:09:45 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,54 +20,32 @@ void	pipecpy(int new_fd[2], int old_fd[2])
 	old_fd[1] = new_fd[1];
 }
 
-int	open_fd(t_cmd *cmd, t_pipe *pipe_fd)
-{
-	(void)pipe_fd;
-	if ((*cmd).name_in)
-	{
-		(*cmd).fd_in = open((*cmd).name_in, O_RDONLY);
-		if ((*cmd).fd_in == -1)
-			exit(EXIT_FAILURE);
-	}
-	if ((*cmd).name_out && (*cmd).append == 0)
-	{
-		(*cmd).fd_out = open((*cmd).name_out, O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
-		if ((*cmd).fd_out == -1)
-			exit(EXIT_FAILURE);
-	}
-	if ((*cmd).name_out && (*cmd).append == 1)
-	{
-		(*cmd).fd_out = open((*cmd).name_out, O_WRONLY | O_CREAT | O_APPEND,
-				0644);
-		if ((*cmd).fd_out == -1)
-			exit(EXIT_FAILURE);
-	}
-	return (0);
-}
-
-int	exec_loop(t_cmd *cmd, t_env *env, t_pipe *pipe_fd)
+int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 {
 	int		id;
-	char	*full_path;
+	int 	i;
 
-	while (1)
+	i = 0;
+	while (i < cmd->nb_cmd - 2)
 	{
-		if (cmd->cmd)
-			full_path = verif_arg(cmd->cmd, env);
-		if (!full_path)
-			return (free_tab((*cmd).cmd), -2);
+		if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) != 0)
+			return (0);
+		if (pipe(pipe_fd->new) == -1)
+			return (-3);
+		cmd->full_path = verif_arg(cmd->cmd, env);
+		if (!cmd->full_path)
+			return (0);
 		id = fork();
-		if (id == 0 && cmd->cmd[0] != 0)
-		{
-			open_fd(cmd, pipe_fd);
-			execute_middle(cmd, full_path, env, *pipe_fd);
-		}
-		wait(0);
-		free(full_path);
-		// pipecpy(pipe_fd->new, pipe_fd->old);
+		if (id == 0)
+			execute_middle(cmd, cmd->full_path, env, pipe_fd);
+		close(pipe_fd->new[1]);
+		close(pipe_fd->new[0]);
+		pipecpy(pipe_fd->new, pipe_fd->old);
 		if (cmd->next)
-			cmd = (*cmd).next;
+		{
+			(*cmd) = *cmd->next;
+			i++;
+		}
 		else
 			break ;
 	}

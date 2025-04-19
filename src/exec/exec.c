@@ -6,59 +6,66 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/02 17:39:10 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:11:24 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	execute_middle(t_cmd *cmd, char *full_path, t_env *env, t_pipe pipe_fd)
+int	open_fd(t_cmd *cmd)
 {
-	(void)pipe_fd;
-	if (cmd->fd_in)
+	if (cmd->name_in)
 	{
-		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
-		{
-			// close_all(pipe_fd);
-			free_path_exec(full_path, (*cmd).cmd);
+		cmd->fd_in = open(cmd->name_in, O_RDONLY);
+		if (cmd->fd_in == -1)
 			exit(EXIT_FAILURE);
-		}
-		// close(pipe_fd.old[0]);
-		// close(pipe_fd.old[1]);
-		close(cmd->fd_in);
 	}
-	if (cmd->fd_out)
+	if (cmd->name_out && cmd->append == 0)
 	{
-		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
-		{
-			// close_all(pipe_fd);
-			free_path_exec(full_path, (*cmd).cmd);
+		cmd->fd_out = open(cmd->name_out, O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+		if (cmd->fd_out == -1)
 			exit(EXIT_FAILURE);
-		}
-		// close(pipe_fd.new[1]);
-		// close(pipe_fd.new[0]);
-		close(cmd->fd_out);
 	}
-	if (execve(full_path, (*cmd).cmd, env->envp) == -1)
+	if (cmd->name_out && cmd->append == 1)
 	{
-		perror("execve deuxieme commande");
-		return ;
+		cmd->fd_out = open(cmd->name_out, O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+		if (cmd->fd_out == -1)
+			exit(EXIT_FAILURE);
 	}
-	free_path_exec(full_path, (*cmd).cmd);
-	exit(EXIT_FAILURE);
+	return (0);
 }
 
-int	exec(t_cmd cmd, t_env *env)
+int	exec(t_cmd *cmd, t_env *env, t_cmd *cmd_origin)
 {
-	t_pipe pipe_fd;
-
-	(void)cmd;
-	(void)env;
-	(void)pipe_fd;
-	// if (pipe(pipe_fd.old) == -1)
-	//     return (-3);
-	exec_loop(&cmd, env, &pipe_fd);
-	// while (waitpid(0, NULL, 0) != -1)
-	// 	;
+	t_pipe	*pipe_fd;
+	int 	result;
+	
+	pipe_fd = malloc(sizeof(t_pipe) * 1);
+	if (pipe(pipe_fd->old) == -1)
+	    return (-3);
+	if (verif_infile(cmd->name_in) != -1)
+	{
+		result = handle_first_cmd(cmd, env, pipe_fd, cmd_origin);
+		if (result != 0)
+			return (result);
+		if(cmd->next)
+			cmd = cmd->next;
+		else
+			return (1);
+	}
+	loop_on_middle(cmd, env, pipe_fd, cmd_origin);
+	if (cmd->nb_cmd >= 2)
+	{
+		result = handle_last_cmd(cmd, env, pipe_fd, cmd_origin);
+		if (result != 0)
+			return (result);
+	}
+	while (waitpid(0, NULL, 0) != -1)
+		;
+	close(pipe_fd->old[0]);
+	close(pipe_fd->old[1]);
+	free(pipe_fd);
 	return (1);
 }

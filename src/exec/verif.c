@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   verif.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 17:58:40 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/18 18:38:52 by sle-nogu         ###   ########.fr       */
+/*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/04/18 13:20:23 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static void	ctrl_c(int sig)
+int	verif_infile(char *file)
 {
-	(void)sig;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	int	fd;
 
-void	handle_signal(void)
-{
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
+	if(!file)
+		return (1);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		write(2, "file not found or open\n", 23);
+		return (-1);
+	}
+	close(fd);
+	return (1);
 }

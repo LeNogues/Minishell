@@ -6,27 +6,27 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:44:45 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/02 17:40:23 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:09:22 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static int	check_flags(t_cmd cmd)
+static int	check_flags(t_cmd *cmd)
 {
 	int	i;
 	int	j;
 
 	i = 1;
 	j = 1;
-	if (!cmd.cmd[1])
+	if (!cmd->cmd[1])
 		return (1);
-	while (cmd.cmd[i] && cmd.cmd[i][0] == '-' && cmd.cmd[i][j] == 'n')
+	while (cmd->cmd[i] && cmd->cmd[i][0] == '-' && cmd->cmd[i][j] == 'n')
 	{
-		if (cmd.cmd[i][j] != 'n')
+		if (cmd->cmd[i][j] != 'n')
 			break ;
 		j++;
-		if (!cmd.cmd[i][j])
+		if (!cmd->cmd[i][j])
 		{
 			i++;
 			j = 1;
@@ -35,7 +35,7 @@ static int	check_flags(t_cmd cmd)
 	return (i);
 }
 
-int	ft_echo(t_cmd cmd)
+int	ft_echo(t_cmd *cmd)
 {
 	int	i;
 	int	newline;
@@ -43,16 +43,16 @@ int	ft_echo(t_cmd cmd)
 
 	newline = 1;
 	i = 1;
-	if (!cmd.cmd)
+	if (!cmd->cmd)
 		return (0);
 	i = check_flags(cmd);
 	if (i != 1)
 		newline = 0;
-	size = strlen(cmd.cmd[i]);
-	while (cmd.cmd[i])
+	size = strlen(cmd->cmd[i]);
+	while (cmd->cmd[i])
 	{
-		write(1, cmd.cmd[i], size);
-		if (cmd.cmd[i + 1])
+		write(1, cmd->cmd[i], size);
+		if (cmd->cmd[i + 1])
 			write(1, " ", 1);
 		i++;
 	}
