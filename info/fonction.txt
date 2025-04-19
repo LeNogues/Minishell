@@ -17,3 +17,4 @@ tgetnum | tgetstr | tgoto | tputs
 
 git 
 
+echo segfault si NULL

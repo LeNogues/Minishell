@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 11:09:45 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:56:00 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,25 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 	i = 0;
 	while (i < cmd->nb_cmd - 2)
 	{
-		if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) != 0)
-			return (0);
 		if (pipe(pipe_fd->new) == -1)
 			return (-3);
-		cmd->full_path = verif_arg(cmd->cmd, env);
-		if (!cmd->full_path)
-			return (0);
 		id = fork();
-		if (id == 0)
-			execute_middle(cmd, cmd->full_path, env, pipe_fd);
-		close(pipe_fd->new[1]);
-		close(pipe_fd->new[0]);
+		if(id == 0)
+		{
+			open_fd(cmd);
+			dup_middle(cmd, pipe_fd);
+			if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) != 0)
+				return (0);
+			if (pipe(pipe_fd->new) == -1)
+				return (-3);
+			cmd->full_path = verif_arg(cmd->cmd, env);
+			if (!cmd->full_path)
+				return (0);
+			execute(cmd, env->envp);
+		}
 		pipecpy(pipe_fd->new, pipe_fd->old);
+		// close(pipe_fd->new[1]);
+		// close(pipe_fd->new[0]);
 		if (cmd->next)
 		{
 			(*cmd) = *cmd->next;

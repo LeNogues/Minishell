@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 11:20:38 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:24:22 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,16 +143,16 @@ int					verif_outfile(char *file);
 ///////////////////////////////////////////////////////////////////////////////
 
 //execute.c
-void				execute_with_input(t_cmd *cmd, char **envp, t_pipe *pipe_fd);
-void				execute_with_output(t_cmd *cmd, char **envp, t_pipe *pipe_fd);
+void				execute(t_cmd *cmd, char **envp);
 void				execute_middle(t_cmd *cmd, char *full_path, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 //handle_cmd.c
-int					handle_first_cmd(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
-int					handle_last_cmd(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
+int					handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
+void	dup_first(t_cmd *cmd, t_pipe *pipe_fd);
+void	dup_last(t_cmd *cmd, t_pipe *pipe_fd);
+void	dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 #endif

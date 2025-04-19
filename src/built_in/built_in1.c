@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/19 11:12:59 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:47:56 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,46 @@ t_cmd	*lexer()
 	t_cmd	*cmd1;
 	t_cmd	*cmd2;
 	t_cmd	*cmd3;
+	t_cmd	*cmd4;
 
-	cmd3 = NULL;
+	cmd4 = NULL;
+	
+	cmd3 = malloc(sizeof(t_cmd) * 1);
+	cmd3->cmd = ft_split("wc -l", ' ');
+	cmd3->name_in =  NULL;
+	cmd3->name_out = ft_strdup("cmd3.txt");
+	cmd3->limiter = NULL;
+	cmd3->append = 1;
+	cmd3->pipe = 1;
+	cmd3->fd_in = 0;
+	cmd3->fd_out = 0;
+	cmd3->nb_cmd = 4;
+	cmd3->full_path = NULL;
+	cmd3->next = cmd4;
 
 	cmd2 = malloc(sizeof(t_cmd) * 1);
-	cmd2->cmd = ft_split("cat", ' ');
+	cmd2->cmd = ft_split("wc -l", ' ');
 	cmd2->name_in =  NULL;
-	cmd2->name_out = ft_strdup("cmd2.txt");
+	cmd2->name_out = NULL;
 	cmd2->limiter = NULL;
 	cmd2->append = 1;
 	cmd2->pipe = 1;
 	cmd2->fd_in = 0;
 	cmd2->fd_out = 0;
-	cmd2->nb_cmd = 3;
+	cmd2->nb_cmd = 4;
 	cmd2->full_path = NULL;
 	cmd2->next = cmd3;
 
 	cmd1 = malloc(sizeof(t_cmd) * 1);
 	cmd1->cmd = ft_split("wc -l", ' ');
-	cmd1->name_in = NULL;
+	cmd1->name_in = ft_strdup("test.txt");
 	cmd1->name_out = NULL;
 	cmd1->limiter = NULL;
 	cmd1->append = 1;
 	cmd1->pipe = 1;
 	cmd1->fd_in = 0;
 	cmd1->fd_out = 0;
-	cmd1->nb_cmd = 3;
+	cmd1->nb_cmd = 4;
 	cmd1->full_path = NULL;
 	cmd1->next = cmd2;
 
@@ -75,7 +89,7 @@ t_cmd	*lexer()
 	cmd0->pipe = 1;
 	cmd0->fd_in = 0;
 	cmd0->fd_out = 0;
-	cmd0->nb_cmd = 3;
+	cmd0->nb_cmd = 4;
 	cmd0->full_path = NULL;
 	cmd0->next = cmd1;
 
