@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/19 13:47:56 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:07:43 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*lexer()
 	cmd4 = NULL;
 	
 	cmd3 = malloc(sizeof(t_cmd) * 1);
-	cmd3->cmd = ft_split("wc -l", ' ');
+	cmd3->cmd = ft_split("cat", ' ');
 	cmd3->name_in =  NULL;
 	cmd3->name_out = ft_strdup("cmd3.txt");
 	cmd3->limiter = NULL;
@@ -55,7 +55,7 @@ t_cmd	*lexer()
 	cmd3->next = cmd4;
 
 	cmd2 = malloc(sizeof(t_cmd) * 1);
-	cmd2->cmd = ft_split("wc -l", ' ');
+	cmd2->cmd = ft_split("cat", ' ');
 	cmd2->name_in =  NULL;
 	cmd2->name_out = NULL;
 	cmd2->limiter = NULL;

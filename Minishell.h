@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 13:24:22 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:17:22 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void				execute_middle(t_cmd *cmd, char *full_path, t_env *env, t_pipe *pipe_fd)
 ///////////////////////////////////////////////////////////////////////////////
 
 //handle_cmd.c
-int					handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin);
+int					handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin, int pos);
 ///////////////////////////////////////////////////////////////////////////////
 
 

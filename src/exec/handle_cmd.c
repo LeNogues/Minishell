@@ -6,13 +6,13 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 13:27:06 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:17:18 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
+int	handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin, int pos)
 {
 	int		id;
 
@@ -20,7 +20,10 @@ int	handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 	if (id == 0)
 	{
 		open_fd(cmd);
-		dup_first(cmd, pipe_fd);
+		if(pos == 1)
+			dup_first(cmd, pipe_fd);
+		if(pos == 2)
+			dup_last(cmd, pipe_fd);
 		if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) != 0)
 			return (0);
 		cmd->full_path = verif_arg(cmd->cmd, env);

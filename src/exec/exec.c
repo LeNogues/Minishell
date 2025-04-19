@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 13:54:53 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:07:02 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	exec(t_cmd *cmd, t_env *env, t_cmd *cmd_origin)
 
 	if (verif_infile(cmd->name_in) != -1)
 	{
-		result = handle_cmd1_2(cmd, env, pipe_fd, cmd_origin);
+		result = handle_cmd1_2(cmd, env, pipe_fd, cmd_origin, 1);
 		if (result != 0)
 			return (result);
 		if(cmd->next)
@@ -56,16 +56,18 @@ int	exec(t_cmd *cmd, t_env *env, t_cmd *cmd_origin)
 		else
 			return (1);
 	}
+	
 	loop_on_middle(cmd, env, pipe_fd, cmd_origin);
 
 	if (cmd->nb_cmd >= 2)
 	{
-		open_fd(cmd);
-		dup_last(cmd, pipe_fd);
-		result = handle_cmd1_2(cmd, env, pipe_fd, cmd_origin);
+		result = handle_cmd1_2(cmd, env, pipe_fd, cmd_origin, 2);
 		if (result != 0)
 			return (result);
-	}
+		close(pipe_fd->new[0]);
+		close(pipe_fd->new[1]);
+
+		}
 	
 	while (waitpid(0, NULL, 0) != -1)
 		;
