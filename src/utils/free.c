@@ -6,19 +6,19 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/20 11:30:09 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:28:31 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	free_all_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
 	t_cmd *tmp;
 
+	
 	while (cmd)
 	{
-		printf("%s\n", cmd->cmd[0]);
 		tmp = cmd->next;
 		if (cmd->cmd)
 			free_tab(cmd->cmd);
