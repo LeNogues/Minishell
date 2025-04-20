@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/19 14:17:22 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/20 13:58:57 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 typedef struct s_cmd
 {
 	char			**cmd;
-	char			**limiter;
+	char			*limiter;
 	char			*name_in;
 	char			*name_out;
 	char			*full_path;
@@ -134,7 +134,8 @@ char				*get_path(t_env *env);
 
 // free.c
 void				free_path_exec(char *full_path, char **executable);
-void				free_cmd(t_cmd *cmd);
+void				free_all_cmd(t_cmd *cmd);
+void	free_cmd(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
 //verif.c

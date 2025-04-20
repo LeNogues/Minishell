@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/20 12:53:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/20 14:49:16 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ t_cmd	*lexer()
 	cmd4 = NULL;
 	
 	cmd3 = malloc(sizeof(t_cmd) * 1);
-	cmd3->cmd = ft_split("cat", ' ');
+	cmd3->cmd = ft_split("wc -l", ' ');
 	cmd3->name_in =  NULL;
 	cmd3->name_out = ft_strdup("cmd3.txt");
 	cmd3->limiter = NULL;
 	cmd3->append = 1;
-	cmd3->pipe = 1;
+	cmd3->pipe = 4;
 	cmd3->fd_in = 0;
 	cmd3->fd_out = 0;
 	cmd3->nb_cmd = 4;
@@ -60,7 +60,7 @@ t_cmd	*lexer()
 	cmd2->name_out = NULL;
 	cmd2->limiter = NULL;
 	cmd2->append = 1;
-	cmd2->pipe = 1;
+	cmd2->pipe = 3;
 	cmd2->fd_in = 0;
 	cmd2->fd_out = 0;
 	cmd2->nb_cmd = 4;
@@ -68,12 +68,12 @@ t_cmd	*lexer()
 	cmd2->next = cmd3;
 
 	cmd1 = malloc(sizeof(t_cmd) * 1);
-	cmd1->cmd = ft_split("yes", ' ');
+	cmd1->cmd = ft_split("yess", ' ');
 	cmd1->name_in = NULL;
 	cmd1->name_out = NULL;
 	cmd1->limiter = NULL;
 	cmd1->append = 1;
-	cmd1->pipe = 1;
+	cmd1->pipe = 2;
 	cmd1->fd_in = 0;
 	cmd1->fd_out = 0;
 	cmd1->nb_cmd = 4;
@@ -81,7 +81,7 @@ t_cmd	*lexer()
 	cmd1->next = cmd2;
 
 	cmd0 = malloc(sizeof(t_cmd) * 1);
-	cmd0->cmd = ft_split("cat", ' ');
+	cmd0->cmd = ft_split("yess", ' ');
 	cmd0->name_in = ft_strdup("test.txt");
 	cmd0->name_out = NULL;
 	cmd0->limiter = NULL;
@@ -115,7 +115,7 @@ void	hub(t_env *env)
 			cmd_origin = cmd;
 			free(line);
 			exec(cmd, env, cmd_origin);
-			free_cmd(cmd_origin);
+			free_all_cmd(cmd_origin);
 		}
 	}
 }
