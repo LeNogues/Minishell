@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/20 13:42:31 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:33:29 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 {
 	int		id;
 	int 	i;
-	t_cmd 	*tmp;
 
 	i = 0;
 	while (i < cmd->nb_cmd - 2)
@@ -36,23 +35,22 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 		{
 			open_fd(cmd);
 			dup_middle(cmd, pipe_fd);
-			if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) != 0)
-				return (0);
-			cmd->full_path = verif_arg(cmd->cmd, env);
-			if (!cmd->full_path)
-				return (0);
-			execute(cmd, env->envp);
+			if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) == 0)
+			{
+				cmd->full_path = verif_arg(cmd->cmd, env);
+				if (!cmd->full_path)
+					return (0);
+				execute(cmd, env->envp);
+			}	
 		}
 		pipecpy(pipe_fd->new, pipe_fd->old);
-		tmp = cmd->next;
-		free_cmd(cmd);
-		if (cmd->next)
+		cmd = cmd->next;
+		i++;
+		if(i >= cmd->nb_cmd - 2)
 		{
-			*cmd = *tmp;
-			i++;
+			pipe_fd->new[0] = -1;
+			pipe_fd->new[1] = -1;
 		}
-		else
-			break ;
 	}
 	return (0);
 }
