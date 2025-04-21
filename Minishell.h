@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/21 10:57:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:39:15 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int					verif_outfile(char *file);
 ///////////////////////////////////////////////////////////////////////////////
 
 //execute.c
-void				execute(t_cmd *cmd, char **envp);
+int				execute(t_cmd *cmd, t_env env, t_pipe *pipe_fd);
 void				execute_middle(t_cmd *cmd, char *full_path, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 

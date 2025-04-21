@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/21 12:33:29 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:43:01 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 				cmd->full_path = verif_arg(cmd->cmd, env);
 				if (!cmd->full_path)
 					return (0);
-				execute(cmd, env->envp);
+				if(execute(cmd, *env, pipe_fd) == -1)
+				{
+					free(env);
+					exit(EXIT_FAILURE);
+				}
 			}	
 		}
 		pipecpy(pipe_fd->new, pipe_fd->old);

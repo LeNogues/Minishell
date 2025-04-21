@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:55:46 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/21 12:28:27 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:39:27 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,13 @@ void	dup_last(t_cmd *cmd, t_pipe *pipe_fd)
 	close(pipe_fd->old[1]);
 }
 
-void	execute(t_cmd *cmd, char **envp)
+int	execute(t_cmd *cmd, t_env env, t_pipe *pipe_fd)
 {
-	execve(cmd->full_path, cmd->cmd, envp);
-	free_path_exec(cmd->full_path, cmd->cmd);
-	exit(EXIT_FAILURE);
+	execve(cmd->full_path, cmd->cmd, env.envp);
+	free_all_cmd(cmd);
+	free_tab(env.envp);
+	free(pipe_fd);
+	return (-1);
 }
 
 
