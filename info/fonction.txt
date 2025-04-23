@@ -17,4 +17,5 @@ tgetnum | tgetstr | tgoto | tputs
 
 git 
 
-echo segfault si NULL
+limiter doit devenir un ** au cous ou plusieur redirection hereDOC
+name_in et name_out aussi doivent devenir **, free de facon logique du coup

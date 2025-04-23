@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/21 11:08:47 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:30:42 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_all_cmd(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	while (cmd)
 	{
@@ -48,17 +48,11 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->full_path);
 }
 
-
-void	free_path_exec(char *full_path, char **executable)
+void	free_cmd_env_pipe(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
 {
-	int	i;
-
-	free(full_path);
-	i = 0;
-	while (executable[i])
-	{
-		free(executable[i]);
-		i++;
-	}
-	free(executable);
+	free_all_cmd(cmd_origin);
+	free_tab(env->envp);
+	free(pipe_fd);
+	free(env);
+	exit(EXIT_FAILURE);
 }

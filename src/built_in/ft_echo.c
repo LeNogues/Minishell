@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:44:45 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/21 13:35:03 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:31:21 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	check_flags(t_cmd *cmd)
 	int	j;
 
 	i = 1;
-	j = 1;	
+	j = 1;
 	if (!cmd->cmd[1])
 		return (1);
 	while (cmd->cmd[i] && cmd->cmd[i][0] == '-' && cmd->cmd[i][j] == 'n')
@@ -45,7 +45,7 @@ int	ft_echo(t_cmd *cmd)
 	i = check_flags(cmd);
 	if (i != 1)
 		newline = 0;
-	if(cmd->cmd[i])
+	if (cmd->cmd[i])
 	{
 		size = strlen(cmd->cmd[i]);
 		while (cmd->cmd[i])

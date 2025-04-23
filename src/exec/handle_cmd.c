@@ -6,40 +6,31 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/21 16:09:35 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:05:21 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin, int pos)
+int	handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin,
+		int pos)
 {
-	int		id;
+	int	id;
 
 	id = fork();
 	if (id == 0)
 	{
-		open_fd(cmd);
-		if(pos == 1)
+		open_fd(cmd, cmd_origin, pipe_fd, env);
+		if (pos == 1)
 			dup_first(cmd, pipe_fd);
-		if(pos == 2)
+		if (pos == 2)
 			dup_last(cmd, pipe_fd);
-		if(choice_of_builtin(cmd, env, cmd_origin, pipe_fd) == 0)
-		{
-			cmd->full_path = verif_arg(cmd->cmd, env);
-			if (!cmd->full_path)
-				return (0);
-			if(execute(cmd, *env, pipe_fd) == -1)
-			{
-				free(env);
-				exit(EXIT_FAILURE);
-			}
-		}
+		if (choice_of_builtin(cmd, env, cmd_origin, pipe_fd) == 0)
+			execute(cmd, env, pipe_fd, cmd_origin);
+		else
+			free_cmd_env_pipe(cmd_origin, env, pipe_fd);
 	}
-	if(cmd->nb_cmd == 1)
-	{
-		close(pipe_fd->old[0]);
-		close(pipe_fd->old[1]);
-	}
-	return (0);
+	if (cmd->nb_cmd == 1)
+		close_pipe_fd(pipe_fd->old);
+	return (1);
 }

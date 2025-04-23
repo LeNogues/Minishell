@@ -25,7 +25,10 @@ SRC=    src/main.c \
 		src/exec/verif.c \
 		src/exec/execute.c \
 		src/exec/handle_cmd.c \
-		src/utils/free.c
+		src/exec/open_fd.c \
+		src/exec/dup.c \
+		src/utils/free.c \
+		src/utils/close_pipe_fd.c
 
 OBJ_DIR=obj
 OBJS=$(SRC:%.c=$(OBJ_DIR)/%.o)

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:59:14 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/20 14:48:07 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:47:12 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,22 @@ int	find_executable(char *command, char **full_path)
 	return (-1);
 }
 
-char	*verif_arg(char **executable, t_env *env)
+char	*verif_arg(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd, t_env *env)
 {
 	char	*full_path;
 
-	if (!executable)
+	if (!cmd->cmd)
 		return (0);
-	if (!executable[0])
+	if (!cmd->cmd[0])
 		exit (EXIT_FAILURE);
-	if (access(executable[0], X_OK) == 0)
-		return (ft_strdup(executable[0]));
+	if (access(cmd->cmd[0], X_OK) == 0)
+		return (ft_strdup(cmd->cmd[0]));
 	full_path = get_path(env);
 	if (!full_path)
-	{
-		free_path_exec(full_path, executable);
-		exit(EXIT_FAILURE);
-	}
-	if (executable[0] == 0)
+		free_cmd_env_pipe(cmd_origin, env, pipe_fd);
+	if (cmd->cmd[0] == 0)
 		return (full_path);
-	else if (find_executable(executable[0], &full_path) == -1)
+	else if (find_executable(cmd->cmd[0], &full_path) == -1)
 	{
 		write(2, "Command not found\n", 19);
 		full_path = ft_strdup("not found");
