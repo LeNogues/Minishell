@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/23 12:02:18 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:13:40 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_cmd	*lexer(void)
 	cmd1->next = cmd2;
 	
 	cmd0 = malloc(sizeof(t_cmd) * 1);
-	cmd0->cmd = ft_split("cat", ' ');
+	cmd0->cmd = ft_split("sleep 5", ' ');
 	cmd0->name_in = ft_strdup("input.txt");
 	cmd0->name_out = NULL;
 	cmd0->limiter = NULL;
