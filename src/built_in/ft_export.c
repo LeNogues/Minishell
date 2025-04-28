@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/24 11:53:52 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:10:45 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ void	ft_export(char **cmd, t_env *env)
 	j = 1;
 	size = ft_tablen(env->envp) + ft_tablen(cmd) + 1;
 	new_env = malloc(sizeof(t_env));
+	if (!new_env)
+		return ;
 	new_env->envp = malloc(sizeof(char *) * size);
+	if (!new_env->envp)
+		return ;
 	while (env->envp[i] != 0)
 	{
 		new_env->envp[i] = ft_strdup(env->envp[i]);

@@ -6,17 +6,34 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/23 11:58:36 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/27 16:13:12 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+// declaration des macros///////////////////////////////////////////////////////
+# ifndef INPUT
+#  define INPUT 1
 
 # endif
+
+# ifndef OUTPUT_TRUNC
+#  define OUTPUT_TRUNC 2
+
+# endif
+
+# ifndef OUTPUT_APPEND
+#  define OUTPUT_APPEND 3
+
+# endif
+
+# ifndef HEREDOC
+#  define HEREDOC 4
+
+# endif
+///////////////////////////////////////////////////////////////////////////////
 
 # include "libft.h"
 # include <dirent.h>
@@ -34,17 +51,19 @@
 # include <termios.h>
 # include <unistd.h>
 
+extern int			g_state_signal;
+
 typedef struct s_cmd
 {
 	char			**cmd;
-	char			*limiter;
-	char			*name_in;
-	char			*name_out;
+	char			**name;
 	char			*full_path;
+	int				*in_or_out;
+	int				heredoc;
+	int				pos;
 	int				fd_in;
 	int				pipe;
 	int				fd_out;
-	int				append;
 	int				nb_cmd;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -53,6 +72,7 @@ typedef struct s_pipe
 {
 	int				old[2];
 	int				new[2];
+	int				heredoc[2];
 }					t_pipe;
 
 typedef struct s_env
@@ -61,110 +81,141 @@ typedef struct s_env
 	int				sz;
 }					t_env;
 
-// built_in1.c
+// built_in1.c*****************************************************************
 void				hub(t_env *envp);
 int					choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_pwd.c
+// ft_pwd.c********************************************************************
 int					ft_pwd(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_cd.c
+// ft_cd.c*********************************************************************
 int					ft_cd(char **path, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_cd_utils.c
+// ft_cd_utils.c***************************************************************
 int					cd_home(t_env *env, char **path);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_echo.c
+// ft_echo.c*******************************************************************
 int					ft_echo(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_exit.c
+// ft_exit.c*******************************************************************
 void				ft_exit(t_cmd *cmd, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_env.c
+// ft_env.c********************************************************************
 void				ft_env(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_unset.c
+// ft_unset.c******************************************************************
 void				ft_unset(char **cmd, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_export.c
+// ft_export.c*****************************************************************
 void				ft_export(char **cmd, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_export_utils.c
+// ft_export_utils.c***********************************************************
 int					is_valid(char *str);
 ///////////////////////////////////////////////////////////////////////////////
 
-// main.c
+// main.c**********************************************************************
 int					main(int argc, char **argv, char **envp);
-int					set_environment(t_env *env, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
-// ft_getenv.c
+// ft_getenv.c*****************************************************************
 char				*ft_getenv(char *value_name, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// signal.c
+// signal.c********************************************************************
 void				handle_signal(void);
 ///////////////////////////////////////////////////////////////////////////////
 
-// exec.c
+// exec.c**********************************************************************
 void				exec(t_cmd *cmd, t_env *env, t_cmd *cmd_origin);
-int					open_fd(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
-						t_env *env);
+int					open_in(t_cmd *cmd, char *name);
+int					open_out(t_cmd *cmd, char *name, int type);
 ///////////////////////////////////////////////////////////////////////////////
 
-// exec_loop.c
+// exec_loop.c*****************************************************************
 int					loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd,
 						t_cmd *cmd_origin);
 ///////////////////////////////////////////////////////////////////////////////
 
-// parsing.c
+// parsing.c*******************************************************************
 char				*verif_arg(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
 						t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// path.c
+// path.c**********************************************************************
 char				*get_path(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// free.c
+// free.c**********************************************************************
 void				free_all_cmd(t_cmd *cmd);
 void				free_cmd(t_cmd *cmd);
 void				free_cmd_env_pipe(t_cmd *cmd_origin, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// verif.c
-int					verif_infile(char *file);
-int					verif_outfile(char *file);
+// verif.c*********************************************************************
+int					verif_file(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// execute.c
+// execute.c*******************************************************************
 void				execute(t_cmd *cmd, t_env *env, t_pipe *pipe_fd,
 						t_cmd *cmd_origin);
 void				execute_middle(t_cmd *cmd, char *full_path, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
-// handle_cmd.c
-int					handle_cmd1_2(t_cmd *cmd, t_env *env, t_pipe *pipe_fd,
-						t_cmd *cmd_origin, int pos);
+// handle_cmd.c****************************************************************
+int					handle_cmd(t_cmd *cmd, t_env *env, t_pipe *pipe_fd,
+						t_cmd *cmd_origin);
 ///////////////////////////////////////////////////////////////////////////////
 
-// close_pipe_fd.c
+// close_pipe_fd.c*************************************************************
 void				close_pipe_fd(int pipe_fd[2]);
 ///////////////////////////////////////////////////////////////////////////////
 
-void				dup_first(t_cmd *cmd, t_pipe *pipe_fd);
-void				dup_last(t_cmd *cmd, t_pipe *pipe_fd);
-void				dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
+// dup.c************************************************************************
+void				dup_first(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
+						t_env *env);
+void				dup_last(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
+						t_env *env);
+void				dup_middle(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
+						t_env *env);
+///////////////////////////////////////////////////////////////////////////////
+
+// heredoc.c********************************************************************
+int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd);
+///////////////////////////////////////////////////////////////////////////////
+
+// set_env.c********************************************************************
+int					set_environment(t_env *env, char **envp);
+int					create_env(t_env *env);
+///////////////////////////////////////////////////////////////////////////////
+
+// first_cmd.c******************************************************************
+int					first_cmd(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
+						t_pipe *pipe_fd);
+///////////////////////////////////////////////////////////////////////////////
+
+// do_cmd.c*********************************************************************
+int					do_cmd(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
+						t_pipe *pipe_fd);
+///////////////////////////////////////////////////////////////////////////////
+
+// mini_dup.c*******************************************************************
+void				dup_fd_out(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
+						t_pipe *pipe_fd);
+void				dup_fd_in(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
+						t_pipe *pipe_fd);
+void				dup_heredoc(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
+///////////////////////////////////////////////////////////////////////////////
+
 #endif

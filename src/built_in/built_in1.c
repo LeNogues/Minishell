@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/23 12:13:40 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:11:17 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,36 +35,23 @@ int	choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin,
 t_cmd	*lexer(void)
 {
 	t_cmd	*cmd0;
-	t_cmd	*cmd1;
 	t_cmd	*cmd2;
 
 	cmd2 = NULL;
-	
-	cmd1 = malloc(sizeof(t_cmd) * 1);
-	cmd1->cmd = ft_split("echo test ", ' ');
-	cmd1->name_in = NULL;
-	cmd1->name_out = NULL;
-	cmd1->limiter = NULL;
-	cmd1->append = 1;
-	cmd1->pipe = 2;
-	cmd1->fd_in = 0;
-	cmd1->fd_out = 0;
-	cmd1->nb_cmd = 2;
-	cmd1->full_path = NULL;
-	cmd1->next = cmd2;
-	
 	cmd0 = malloc(sizeof(t_cmd) * 1);
-	cmd0->cmd = ft_split("sleep 5", ' ');
-	cmd0->name_in = ft_strdup("input.txt");
-	cmd0->name_out = NULL;
-	cmd0->limiter = NULL;
-	cmd0->append = 1;
+	cmd0->cmd = ft_split("wc -l", ' ');
+	cmd0->name = ft_split("input.txt", ' ');
+	cmd0->in_or_out = malloc(sizeof(int) * 2);
+	cmd0->in_or_out[0] = INPUT;
+	cmd0->in_or_out[1] = 0;
+	cmd0->heredoc = 0;
+	cmd0->pos = 1;
 	cmd0->pipe = 1;
 	cmd0->fd_in = 0;
 	cmd0->fd_out = 0;
-	cmd0->nb_cmd = 2;
+	cmd0->nb_cmd = 1;
 	cmd0->full_path = NULL;
-	cmd0->next = cmd1;
+	cmd0->next = cmd2;
 	return (cmd0);
 }
 
@@ -76,6 +63,7 @@ void	hub(t_env *env)
 
 	while (1)
 	{
+		g_state_signal = 1;
 		line = readline("\001\e[32m\002Minishell : \001\e[0m\002");
 		if (!line)
 			return ;

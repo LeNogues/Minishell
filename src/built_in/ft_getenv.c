@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:28:59 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/24 13:40:29 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:42:48 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_home(t_env *env)
 		return (0);
 	while (env->envp[i])
 	{
-		if (strncmp("HOME=", env->envp[i], 5) == 0)
+		if (ft_strncmp("HOME=", env->envp[i], 5) == 0)
 			break ;
 		i++;
 	}
@@ -42,7 +42,7 @@ char	*ft_getenv(char *value_name, t_env *env)
 	i = 0;
 	while (env->envp[i])
 	{
-		if (strncmp(value_name, env->envp[i], size_value_name) == 0)
+		if (ft_strncmp(value_name, env->envp[i], size_value_name) == 0)
 			break ;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/23 12:05:16 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:14:11 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	pipecpy(int new_fd[2], int old_fd[2])
 
 int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 {
-	int	id;
 	int	i;
 
 	i = 0;
@@ -30,19 +29,11 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 	{
 		if (pipe(pipe_fd->new) == -1)
 			return (-3);
-		id = fork();
-		if (id == 0)
-		{
-			open_fd(cmd, cmd_origin, pipe_fd, env);
-			dup_middle(cmd, pipe_fd);
-			if (choice_of_builtin(cmd, env, cmd_origin, pipe_fd) == 0)
-				execute(cmd, env, pipe_fd, cmd_origin);
-			else
-				free_cmd_env_pipe(cmd_origin, env, pipe_fd);
-		}
+		if (!handle_cmd(cmd, env, pipe_fd, cmd_origin))
+			return (0);
 		pipecpy(pipe_fd->new, pipe_fd->old);
 		cmd = cmd->next;
 		i++;
 	}
-	return (0);
+	return (1);
 }

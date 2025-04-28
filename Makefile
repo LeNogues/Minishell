@@ -27,6 +27,11 @@ SRC=    src/main.c \
 		src/exec/handle_cmd.c \
 		src/exec/open_fd.c \
 		src/exec/dup.c \
+		src/exec/heredoc.c \
+		src/exec/set_env.c \
+		src/exec/first_cmd.c \
+		src/exec/do_cmd.c \
+		src/exec/mini_dup.c \
 		src/utils/free.c \
 		src/utils/close_pipe_fd.c
 

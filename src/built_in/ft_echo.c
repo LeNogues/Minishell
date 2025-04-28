@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:44:45 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/23 11:31:21 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:41:29 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_echo(t_cmd *cmd)
 		newline = 0;
 	if (cmd->cmd[i])
 	{
-		size = strlen(cmd->cmd[i]);
+		size = ft_strlen(cmd->cmd[i]);
 		while (cmd->cmd[i])
 		{
 			write(1, cmd->cmd[i], size);

@@ -6,13 +6,13 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/24 13:41:27 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:11:22 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static int	create_env(char *env_to_create, t_env *env)
+static int	create_env_cd(char *env_to_create, t_env *env)
 {
 	char	**cmd;
 
@@ -58,7 +58,7 @@ static void	change_pwd(t_env *env, char *path)
 		return ;
 	while (env->envp[i])
 	{
-		if (strncmp("PWD=", env->envp[i], 4) == 0)
+		if (ft_strncmp("PWD=", env->envp[i], 4) == 0)
 			break ;
 		i++;
 	}
@@ -83,12 +83,12 @@ static void	change_old_pwd(t_env *env)
 		return ;
 	while (env->envp[i])
 	{
-		if (strncmp("OLDPWD=", env->envp[i], 7) == 0)
+		if (ft_strncmp("OLDPWD=", env->envp[i], 7) == 0)
 			break ;
 		i++;
 	}
 	if (!env->envp[i])
-		if (!create_env("export OLDPWD=", env))
+		if (!create_env_cd("export OLDPWD=", env))
 			return ;
 	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
