@@ -32,6 +32,7 @@ SRC=    src/main.c \
 		src/exec/first_cmd.c \
 		src/exec/do_cmd.c \
 		src/exec/mini_dup.c \
+		src/exec/dup_origin.c \
 		src/utils/free.c \
 		src/utils/close_pipe_fd.c
 

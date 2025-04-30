@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:50:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/25 15:14:35 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:37:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	first_cmd(t_cmd *cmd, t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
 {
-	if (!handle_cmd(cmd, env, pipe_fd, cmd_origin))
-		return (0);
+	handle_cmd(cmd, env, pipe_fd, cmd_origin);
 	if (cmd->next)
 		cmd = cmd->next;
 	else

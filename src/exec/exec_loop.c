@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:04:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/25 15:14:11 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:38:37 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	loop_on_middle(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
 	{
 		if (pipe(pipe_fd->new) == -1)
 			return (-3);
-		if (!handle_cmd(cmd, env, pipe_fd, cmd_origin))
-			return (0);
+		handle_cmd(cmd, env, pipe_fd, cmd_origin);
 		pipecpy(pipe_fd->new, pipe_fd->old);
 		cmd = cmd->next;
 		i++;

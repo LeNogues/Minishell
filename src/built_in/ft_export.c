@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/23 16:10:45 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:12:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ void	ft_export(char **cmd, t_env *env)
 {
 	int		size;
 	int		i;
-	int		j;
 	t_env	*new_env;
 
 	if (!env || !env->envp)
 		return ;
 	i = 0;
-	j = 1;
 	size = ft_tablen(env->envp) + ft_tablen(cmd) + 1;
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)

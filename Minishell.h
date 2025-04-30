@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/27 16:13:12 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:56:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct s_pipe
 	int				old[2];
 	int				new[2];
 	int				heredoc[2];
+	int				fd_stdin;
+	int				fd_stdout;
 }					t_pipe;
 
 typedef struct s_env
@@ -163,7 +165,7 @@ void				free_cmd_env_pipe(t_cmd *cmd_origin, t_env *env,
 ///////////////////////////////////////////////////////////////////////////////
 
 // verif.c*********************************************************************
-int					verif_file(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
+int	verif_file(t_cmd *cmd, t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // execute.c*******************************************************************
@@ -183,12 +185,9 @@ void				close_pipe_fd(int pipe_fd[2]);
 ///////////////////////////////////////////////////////////////////////////////
 
 // dup.c************************************************************************
-void				dup_first(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
-						t_env *env);
-void				dup_last(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
-						t_env *env);
-void				dup_middle(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
-						t_env *env);
+int				dup_first(t_cmd *cmd, t_pipe *pipe_fd);
+int				dup_last(t_cmd *cmd, t_pipe *pipe_fd);
+int				dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // heredoc.c********************************************************************
@@ -211,11 +210,14 @@ int					do_cmd(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
 ///////////////////////////////////////////////////////////////////////////////
 
 // mini_dup.c*******************************************************************
-void				dup_fd_out(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
-						t_pipe *pipe_fd);
-void				dup_fd_in(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
-						t_pipe *pipe_fd);
-void				dup_heredoc(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
+int				dup_fd_out(t_cmd *cmd);
+int				dup_fd_in(t_cmd *cmd);
+int				dup_heredoc(t_pipe *pipe_fd);
+///////////////////////////////////////////////////////////////////////////////
+
+//dup_origin.c*****************************************************************
+void 				init_origin(t_pipe *pipe_fd);
+void 				restore_origin(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/27 14:11:17 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:14:41 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,20 @@ int	choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin,
 t_cmd	*lexer(void)
 {
 	t_cmd	*cmd0;
+	// t_cmd	*cmd1;
 	t_cmd	*cmd2;
 
 	cmd2 = NULL;
+
 	cmd0 = malloc(sizeof(t_cmd) * 1);
 	cmd0->cmd = ft_split("wc -l", ' ');
-	cmd0->name = ft_split("input.txt", ' ');
-	cmd0->in_or_out = malloc(sizeof(int) * 2);
-	cmd0->in_or_out[0] = INPUT;
-	cmd0->in_or_out[1] = 0;
-	cmd0->heredoc = 0;
+	cmd0->name = ft_split("EOF CAT input.txt output.txt", ' ');
+	cmd0->in_or_out = malloc(sizeof(int) * 4);
+	cmd0->in_or_out[0] = HEREDOC;
+	cmd0->in_or_out[1] = HEREDOC;
+	cmd0->in_or_out[2] = INPUT;
+	cmd0->in_or_out[3] = OUTPUT_APPEND;
+	cmd0->heredoc = 2;
 	cmd0->pos = 1;
 	cmd0->pipe = 1;
 	cmd0->fd_in = 0;
@@ -52,6 +56,7 @@ t_cmd	*lexer(void)
 	cmd0->nb_cmd = 1;
 	cmd0->full_path = NULL;
 	cmd0->next = cmd2;
+	
 	return (cmd0);
 }
 

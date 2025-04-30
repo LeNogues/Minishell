@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_cmd.c                                           :+:      :+:    :+:   */
+/*   dup_origin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 14:03:28 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/29 17:28:37 by seb              ###   ########.fr       */
+/*   Created: 2025/04/29 14:55:52 by seb               #+#    #+#             */
+/*   Updated: 2025/04/29 16:39:08 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	do_cmd(t_cmd *cmd, t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
+void init_origin( t_pipe *pipe_fd)
 {
-	first_cmd(cmd, cmd_origin, env, pipe_fd);
-	if (!loop_on_middle(cmd, env, pipe_fd, cmd_origin))
-		return (0);
-	while (cmd->next)
-		cmd = cmd->next;
-	if (cmd->nb_cmd >= 2)
-	{
-		if (!handle_cmd(cmd, env, pipe_fd, cmd_origin))
-			return (0);
-	}
-	if (cmd->nb_cmd > 1)
-	{
-		close_pipe_fd(pipe_fd->old);
-		free(pipe_fd);
-	}
-	return (1);
+   pipe_fd->fd_stdin = STDIN_FILENO;
+   pipe_fd->fd_stdout = STDOUT_FILENO;
+}
+
+void restore_origin(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
+{
+    if (dup2(pipe_fd->fd_stdin, STDIN_FILENO) == -1)
+        free_cmd_env_pipe(cmd_origin, env, pipe_fd);
+    if (dup2(pipe_fd->fd_stdout, STDOUT_FILENO) == -1)
+        free_cmd_env_pipe(cmd_origin, env, pipe_fd);
 }
