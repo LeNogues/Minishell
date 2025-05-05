@@ -34,7 +34,26 @@ SRC=    src/main.c \
 		src/exec/mini_dup.c \
 		src/exec/dup_origin.c \
 		src/utils/free.c \
-		src/utils/close_pipe_fd.c
+		src/utils/close_pipe_fd.c \
+		src/parsing/expand/expand_string.c \
+		src/parsing/expand/expand_utils.C \
+		src/parsing/expand/expand.c \
+		src/parsing/fusion/fusion.c \
+		src/parsing/fusion/main_function.c \
+		src/parsing/lexer/create_linked_list.c \
+		src/parsing/lexer/init_scanner.c \
+		src/parsing/lexer/is_something.c \
+		src/parsing/lexer/lexer.c \
+		src/parsing/lexer/make_token.c \
+		src/parsing/lexer/print_token.c \
+		src/parsing/lexer/scan_scanner.c \
+		src/parsing/parser/create_node.c \
+		src/parsing/parser/handle.c \
+		src/parsing/parser/parser_verif.c \
+		src/parsing/parser/parser.c \
+		src/parsing/parser/syntax_verif.c \
+		
+		
 
 OBJ_DIR=obj
 OBJS=$(SRC:%.c=$(OBJ_DIR)/%.o)

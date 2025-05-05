@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/04/29 19:14:41 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/05 15:07:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	hub(t_env *env)
 		if (line[0] != 0)
 		{
 			add_history(line);
-			cmd = lexer();
+			cmd = merge(line);
 			cmd_origin = cmd;
 			free(line);
 			exec(cmd, env, cmd_origin);

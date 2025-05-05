@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/29 18:56:55 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/05 15:10:08 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include "src/parsing/expand/expand.h"
+# include "src/parsing/fusion/fusion.h"
+# include "src/parsing/lexer/lexer.h"
+# include "src/parsing/parser/parser.h"
 
 extern int			g_state_signal;
 
@@ -62,7 +66,6 @@ typedef struct s_cmd
 	int				heredoc;
 	int				pos;
 	int				fd_in;
-	int				pipe;
 	int				fd_out;
 	int				nb_cmd;
 	struct s_cmd	*next;
