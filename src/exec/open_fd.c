@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:27:23 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/29 16:21:36 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/05 18:52:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	open_in(t_cmd *cmd, char *name)
 
 int	open_out(t_cmd *cmd, char *name, int type)
 {
-	if (type == 0)
+	printf("%d\n", type);
+	if (type == 2)
 		cmd->fd_out = open(name, O_WRONLY | O_CREAT | O_TRUNC,
 				0644);
 	else

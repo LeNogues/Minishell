@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/05 16:14:16 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/05 17:26:53 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,9 @@ t_token		create_single_token(char c);
 t_token		scan_one_token(void);
 const char	*type_to_str(t_token_type type);
 void		free_all(t_token **head);
-t_cmd	*merge(char *source);
+t_cmd		*merge(char *source);
+void 		ft_list_len(t_cmd *cmd);
+
 
 //create_linked_list.c
 void	insert_at_head(t_token **head, t_token *token);

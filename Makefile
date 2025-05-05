@@ -52,6 +52,7 @@ SRC=    src/main.c \
 		src/parsing/parser/parser_verif.c \
 		src/parsing/parser/parser.c \
 		src/parsing/parser/syntax_verif.c \
+		src/parsing/lexer/ft_list_len.c
 
 		
 
