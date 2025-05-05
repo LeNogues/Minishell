@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/05 15:10:08 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/05 16:14:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 
 # endif
 
-# ifndef HEREDOC
-#  define HEREDOC 4
+# ifndef ISHEREDOC
+#  define ISHEREDOC 4
 
 # endif
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,10 +50,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include "src/parsing/expand/expand.h"
-# include "src/parsing/fusion/fusion.h"
-# include "src/parsing/lexer/lexer.h"
-# include "src/parsing/parser/parser.h"
 
 extern int			g_state_signal;
 
@@ -222,5 +218,142 @@ int				dup_heredoc(t_pipe *pipe_fd);
 void 				init_origin(t_pipe *pipe_fd);
 void 				restore_origin(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+typedef enum e_token_type
+{
+	COMMAND,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	HEREDOC,
+	APPEND,
+	EMPTY_STRING,
+	EXPAND,
+	STRING,
+	WHITESPACE,
+	NONE,
+	ERROR
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*start;
+	int				length;
+	struct s_token	*next;
+}	t_token;
+
+typedef struct s_scanner
+{
+	char	*start;
+	char	*current;
+}	t_scanner;
+
+
+// expand.c
+void	expand_one_token(t_token *token_node);
+void	expand_token(t_token **head);
+void	expand_string(t_token **head ,t_token *node);
+
+// expand_string.c
+int		size_of_merged_string(t_token **sub_linked);
+char	*merge_string(t_token **head, int size);
+char	*return_string_from_quote(t_token *node);
+void	expand_one_token_sub(t_token **head);
+char	*return_string(t_token *node);
+
+
+// expand_utils.c
+char	*ft_strchr(const char *s, int c);
+void    free_token_list(t_token **head);
+void	replace_node(t_token *node, char *resu);
+
+// main_function.c
+void	fusion(t_token **head);
+
+// fusion.c
+int		is_mergeable(t_token *node);
+int		size_new_string(t_token *parcours, t_token *end_of_sequence);
+char	*create_new_string(t_token *parcours, t_token *end_of_sequence, int i);
+void	delete_tokens(t_token *parcours, t_token *end_of_sequence);
+void	merge_tokens(t_token *parcours, t_token *end_of_sequence);
+// init_scanner.c
+
+t_scanner	*scanner(void);
+void		init_scanner(char *source);
+
+// is_something.c
+
+int			is_space(char c);
+int			is_sep(char c);
+int			is_allnum(char c);
+
+// scan_scanner.c
+char		peek(void);
+int			is_at_end(void);
+char		advance(void);
+char		peek_next(void);
+
+//make_token.c
+t_token		make_token(t_token_type type);
+t_token		string(char quote);
+char		*skip_white(void);
+t_token		expand(void);
+
+//  lexer.c
+t_token		create_single_token(char c);
+t_token		scan_one_token(void);
+const char	*type_to_str(t_token_type type);
+void		free_all(t_token **head);
+t_cmd	*merge(char *source);
+
+//create_linked_list.c
+void	insert_at_head(t_token **head, t_token *token);
+void	insert_last(t_token **head, t_token *token_list);
+
+
+//print_token.c
+void	print_list(t_token **head);
+void	print_one_token(t_token *node);
+int		create_list_of_token(t_token **head);
+
+// parser.c
+void	parser(t_token **head, t_cmd **final);
+char	**create_command_line(t_token *start, t_token *pipe);
+int		size_cmd_line(t_token *start, t_token *pipe);
+void	initialise_node(t_cmd **node, int cmd_size, int redir_size);
+
+
+// handle.c functions
+t_token	*handle_cmd_token(t_cmd *node, t_token *token, int *i);
+t_token	*handle_redir_in(t_cmd *node, t_token *token, int *r);
+t_token	*handle_redir_out(t_cmd *node, t_token *token, int *r);
+t_token	*handle_heredoc(t_cmd *node, t_token *token, int *r);
+
+// parser.c helper
+void	init_indices(int indices[2]);
+
+// parser_verif.c
+int		handle_redir_syntax(t_token **current_ptr);
+int		handle_pipe_syntax(t_token **current_ptr);
+int		is_redir_type(t_token_type type);
+
+// syntax_verif.c
+int		syntax_verif(t_token **head);
+
+// create_node.c
+t_cmd	*create_one_node(t_token *start, t_token *pipe);
+t_cmd	*create_one_node(t_token *start, t_token *pipe);
+
+
+
 
 #endif

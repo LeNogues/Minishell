@@ -36,7 +36,7 @@ SRC=    src/main.c \
 		src/utils/free.c \
 		src/utils/close_pipe_fd.c \
 		src/parsing/expand/expand_string.c \
-		src/parsing/expand/expand_utils.C \
+		src/parsing/expand/expand_utils.c \
 		src/parsing/expand/expand.c \
 		src/parsing/fusion/fusion.c \
 		src/parsing/fusion/main_function.c \
@@ -52,7 +52,7 @@ SRC=    src/main.c \
 		src/parsing/parser/parser_verif.c \
 		src/parsing/parser/parser.c \
 		src/parsing/parser/syntax_verif.c \
-		
+
 		
 
 OBJ_DIR=obj

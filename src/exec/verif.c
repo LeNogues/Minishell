@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/29 19:17:39 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/05 16:05:11 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	verif_file(t_cmd *cmd, t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
 			result = open_in(cmd, cmd->name[i]);
 		else if (cmd->in_or_out[i] == OUTPUT_APPEND || cmd->in_or_out[i] == OUTPUT_TRUNC)
 			result = open_out(cmd, cmd->name[i], cmd->in_or_out[i]);
-		else if (cmd->in_or_out[i] == HEREDOC)
+		else if (cmd->in_or_out[i] == ISHEREDOC)
 			result = open_heredoc(cmd, cmd->name[i], pipe_fd);
 		if (!result)
 		{
