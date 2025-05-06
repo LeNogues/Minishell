@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/24 18:11:22 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:39:30 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ static void	change_pwd(t_env *env, char *path)
 	}
 	if (path[0] != '/')
 		path = create_new_path(env, path);
-	new_pwd = ft_strjoin("PWD=", path);
+	if (ft_strncmp(path, "..", 3) == 1)
+		new_pwd = get_parent(env);
+	else
+		new_pwd = ft_strjoin("PWD=", path);
 	if (!new_pwd)
 		return (perror("ft_strjoin"), free(path));
 	free(env->envp[i]);

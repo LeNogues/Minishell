@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_number.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:23:26 by sle-nogu          #+#    #+#             */
-/*   Updated: 2024/12/04 14:52:45 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:23:48 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_putunsigned_nb(unsigned int nb, int size)
 		write(1, &nb, 1);
 	}
 	else
-	{	
+	{
 		size = ft_putunsigned_nb(nb / 10, size);
 		nb = nb % 10 + 48;
 		write(1, &nb, 1);
@@ -46,7 +46,7 @@ int	ft_putnb(int nb, int size)
 		write(1, &n, 1);
 	}
 	else
-	{	
+	{
 		size = ft_putnb(n / 10, size);
 		n = n % 10 + 48;
 		write(1, &n, 1);

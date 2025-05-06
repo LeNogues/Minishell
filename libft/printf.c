@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:14:21 by sle-nogu          #+#    #+#             */
-/*   Updated: 2024/12/04 14:52:30 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:24:06 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 
 int	ft_type(char c, va_list argptr)
-{	
+{
 	int	size;
 
 	size = 0;

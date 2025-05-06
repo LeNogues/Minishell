@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/05 16:18:10 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/06 20:42:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ int	choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin,
 	return (0);
 }
 
-void	hub(t_env *env)
+void	hub(t_info *info)
 {
-	t_cmd	*cmd;
-	t_cmd	*cmd_origin;
 	char	*line;
 
 	while (1)
@@ -47,13 +45,13 @@ void	hub(t_env *env)
 		if (line[0] != 0)
 		{
 			add_history(line);
-			cmd = merge(line);
-			if (cmd)
+			info->cmd = merge(info, line);
+			if (info->cmd)
 			{
-				cmd_origin = cmd;
+				info->cmd_origin = info->cmd;
 				free(line);
-				exec(cmd, env, cmd_origin);
-				free_all_cmd(cmd_origin);
+				exec(info);
+				free_all_cmd(info->cmd_origin);
 			}
 		}
 	}

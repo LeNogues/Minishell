@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/24 11:37:33 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:06:30 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,25 @@ int			g_state_signal = 1;
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env	*env;
+	t_info	*info;
 
 	(void)argc;
 	(void)argv;
-	env = malloc(sizeof(t_env));
+	info = malloc(sizeof(t_info));
+	info->env = malloc(sizeof(t_env));
 	handle_signal();
-	if (!env)
+	if (!info->env)
 		return (-1);
 	if (!envp[0])
 	{
-		if (create_env(env))
+		if (create_env(info->env))
 			return (-1);
 	}
-	else if (set_environment(env, envp))
+	else if (set_environment(info->env, envp))
 		return (-1);
-	hub(env);
-	free_tab(env->envp);
-	free(env);
+	hub(info);
+	free_tab(info->env->envp);
+	free(info->env);
+	free(info);
 	return (0);
 }

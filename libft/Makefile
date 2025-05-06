@@ -7,7 +7,6 @@ SRCS = ft_split.c \
        ft_strtrim.c \
        ft_strmapi.c \
        ft_strnstr.c \
-       ft_itoa.c \
        ft_putchar_fd.c  \
        ft_strncmp.c \
        ft_putendl_fd.c  \

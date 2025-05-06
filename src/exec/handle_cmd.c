@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/29 17:31:45 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/06 20:51:22 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,31 @@ void	dup_no_fd(t_cmd *cmd, t_pipe *pipe_fd)
 		dup_last(cmd, pipe_fd);
 }
 
-int	handle_cmd(t_cmd *cmd, t_env *env, t_pipe *pipe_fd, t_cmd *cmd_origin)
+int	handle_cmd(t_info *info, t_pipe *pipe_fd)
 {
 	int	id;
+	int	built;
 
-	id = fork();
+	built = 0;
+	id = -1;
+	if (info->cmd->nb_cmd == 1)
+		built = choice_of_builtin(info->cmd, info->env,
+				info->cmd_origin, pipe_fd);
+	if (built == 0)
+		id = fork();
 	if (id == 0)
 	{
-		if (!verif_file(cmd, cmd_origin, env, pipe_fd))
-			free_cmd_env_pipe(cmd_origin, env, pipe_fd);
-		dup_no_fd(cmd, pipe_fd);
-		if (choice_of_builtin(cmd, env, cmd_origin, pipe_fd) == 0)
-			execute(cmd, env, pipe_fd, cmd_origin);
+		if (!verif_file(info->cmd, info->cmd_origin, info->env, pipe_fd))
+			free_cmd_env_pipe(info->cmd_origin, info->env, pipe_fd);
+		dup_no_fd(info->cmd, pipe_fd);
+		if (!choice_of_builtin(info->cmd, info->env, info->cmd_origin, pipe_fd))
+			execute(info->cmd, info->env, pipe_fd, info->cmd_origin);
 		else
-			free_cmd_env_pipe(cmd_origin, env, pipe_fd);
+			free_cmd_env_pipe(info->cmd_origin, info->env, pipe_fd);
 	}
+	info->last_pid = id;
 	g_state_signal = 2;
-	if (cmd->nb_cmd == 1)
+	if (info->cmd->nb_cmd == 1)
 		close_pipe_fd(pipe_fd->old);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:44:45 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/23 14:41:29 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:04:02 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	ft_echo(t_cmd *cmd)
 		newline = 0;
 	if (cmd->cmd[i])
 	{
-		size = ft_strlen(cmd->cmd[i]);
 		while (cmd->cmd[i])
 		{
+			size = ft_strlen(cmd->cmd[i]);
 			write(1, cmd->cmd[i], size);
 			if (cmd->cmd[i + 1])
 				write(1, " ", 1);
