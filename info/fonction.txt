@@ -24,4 +24,4 @@ echo $? //refacto faite dans exec, reste expand a faire pour taqi
 probleme quand exit dans pipe ?????
 probleme de pipe avec 3 commande //////////////////////////////////////////////
 ctrl + c dans minishell dans minishell dans minishell dans minishell dans minishell dans minishell dans minishell
-faire calcul nombre de redirection heredoc
+faire calcul nombre de redirection heredoc/////////////////////////////////////
