@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:18:19 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/13 17:28:14 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,6 +295,12 @@ char				*ft_strchr(const char *s, int c);
 void				free_token_list(t_token **head);
 void				replace_node(t_token *node, char *resu);
 int					is_only_dollars(t_token  *node);
+
+// expand_inside_heredoc.c
+char	*expand_for_heredoc(char *line, t_info *info);
+
+// advance_heredoc.c
+void	advance_heredoc_token_and_ws(t_token **p_parcours);
 
 
 // main_function.c
